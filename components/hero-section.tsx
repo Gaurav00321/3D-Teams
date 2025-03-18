@@ -56,8 +56,6 @@ function FloatingText() {
 }
 
 export default function HeroSection() {
-  // No need for isMounted state since we're using dynamic import with ssr: false
-
   return (
     <section className="relative h-screen w-full overflow-hidden">
       <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>

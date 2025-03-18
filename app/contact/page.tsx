@@ -1,13 +1,28 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { motion } from "framer-motion"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
-import { MapPin, Phone, Mail, Clock, Facebook, Twitter, Instagram, Linkedin } from "lucide-react"
+import { useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+} from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -15,25 +30,25 @@ export default function ContactPage() {
     email: "",
     subject: "",
     message: "",
-  })
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle form submission logic here
-    console.log(formData)
-    alert("Thank you for your message! We'll get back to you soon.")
+    console.log(formData);
+    alert("Thank you for your message! We'll get back to you soon.");
     setFormData({
       name: "",
       email: "",
       subject: "",
       message: "",
-    })
-  }
+    });
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -43,7 +58,7 @@ export default function ContactPage() {
         staggerChildren: 0.2,
       },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -52,14 +67,15 @@ export default function ContactPage() {
       y: 0,
       transition: { duration: 0.8 },
     },
-  }
+  };
 
   return (
     <div className="container mx-auto px-4 py-24">
       <div className="max-w-3xl mx-auto text-center mb-16">
         <h1 className="text-4xl font-bold tracking-tight mb-4">Contact Us</h1>
         <p className="text-xl text-muted-foreground">
-          Get in touch with our team to discuss your project or inquire about our services
+          Get in touch with our team to discuss your project or inquire about
+          our services
         </p>
       </div>
 
@@ -73,7 +89,10 @@ export default function ContactPage() {
           <Card>
             <CardHeader>
               <CardTitle>Send Us a Message</CardTitle>
-              <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+              <CardDescription>
+                Fill out the form below and we'll get back to you as soon as
+                possible.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -137,7 +156,9 @@ export default function ContactPage() {
           <Card className="h-full">
             <CardHeader>
               <CardTitle>Contact Information</CardTitle>
-              <CardDescription>Reach out to us through any of these channels</CardDescription>
+              <CardDescription>
+                Reach out to us through any of these channels
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
@@ -182,19 +203,35 @@ export default function ContactPage() {
               <div className="pt-4 border-t">
                 <h3 className="font-medium mb-4">Connect With Us</h3>
                 <div className="flex space-x-4">
-                  <Button variant="outline" size="icon" className="rounded-full">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="rounded-full"
+                  >
                     <Facebook className="h-5 w-5" />
                     <span className="sr-only">Facebook</span>
                   </Button>
-                  <Button variant="outline" size="icon" className="rounded-full">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="rounded-full"
+                  >
                     <Twitter className="h-5 w-5" />
                     <span className="sr-only">Twitter</span>
                   </Button>
-                  <Button variant="outline" size="icon" className="rounded-full">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="rounded-full"
+                  >
                     <Instagram className="h-5 w-5" />
                     <span className="sr-only">Instagram</span>
                   </Button>
-                  <Button variant="outline" size="icon" className="rounded-full">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="rounded-full"
+                  >
                     <Linkedin className="h-5 w-5" />
                     <span className="sr-only">LinkedIn</span>
                   </Button>
@@ -212,6 +249,5 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
