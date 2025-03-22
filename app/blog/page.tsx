@@ -1,7 +1,7 @@
 import ClientBlogWrapper from "@/components/client-blog-wrapper";
 
 // Mock blog data
-const blogPosts = [
+export const blogPosts = [
   {
     id: 1,
     title: "The Future of 3D Web Experiences",
@@ -70,7 +70,7 @@ const blogPosts = [
   },
 ];
 
-const categories = [
+export const categories = [
   "All",
   "Technology",
   "3D Modeling",

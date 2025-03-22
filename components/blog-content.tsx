@@ -1,31 +1,58 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import Image from "next/image"
-import Link from "next/link"
-import { Search, Calendar, User } from "lucide-react"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Image from "next/image";
+import Link from "next/link";
+import { Search, Calendar, User } from "lucide-react";
 
-export default function BlogContent({ blogPosts, categories }) {
-  const [activeCategory, setActiveCategory] = useState("All")
-  const [searchQuery, setSearchQuery] = useState("")
+interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  image: string;
+  date: string;
+  author: string;
+  category: string;
+  tags: string[];
+}
+
+interface BlogContentProps {
+  blogPosts: BlogPost[];
+  categories: string[];
+}
+
+export default function BlogContent({
+  blogPosts,
+  categories,
+}: BlogContentProps) {
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredPosts = blogPosts.filter((post) => {
     // Filter by category
-    const categoryMatch = activeCategory === "All" || post.category === activeCategory
+    const categoryMatch =
+      activeCategory === "All" || post.category === activeCategory;
 
     // Filter by search query
     const searchMatch =
       searchQuery === "" ||
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+      post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
 
-    return categoryMatch && searchMatch
-  })
+    return categoryMatch && searchMatch;
+  });
 
   return (
     <>
@@ -65,7 +92,12 @@ export default function BlogContent({ blogPosts, categories }) {
         {filteredPosts.map((post) => (
           <Card key={post.id} className="overflow-hidden">
             <div className="aspect-[16/9] relative">
-              <Image src={post.image || "/placeholder.svg"} alt={post.title} fill className="object-cover" />
+              <Image
+                src={post.image || "/placeholder.svg"}
+                alt={post.title}
+                fill
+                className="object-cover"
+              />
             </div>
             <CardHeader>
               <div className="flex items-center justify-between mb-2">
@@ -86,7 +118,9 @@ export default function BlogContent({ blogPosts, categories }) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="line-clamp-3 text-muted-foreground">{post.excerpt}</p>
+              <p className="line-clamp-3 text-muted-foreground">
+                {post.excerpt}
+              </p>
             </CardContent>
             <CardFooter>
               <div className="flex flex-wrap gap-2">
@@ -107,6 +141,5 @@ export default function BlogContent({ blogPosts, categories }) {
         </Button>
       </div>
     </>
-  )
+  );
 }
-
