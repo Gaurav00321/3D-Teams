@@ -3,8 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: '3D Teams',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  description: 'A platform for creating and sharing 3D teams',
 }
 
 export default function RootLayout({
