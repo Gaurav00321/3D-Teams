@@ -33,10 +33,27 @@ export default function Component() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [scrollY, setScrollY] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768) // 768px is typical md breakpoint
+    }
+
+    // Check initial
+    checkMobile()
+
+    // Handle resize
+    window.addEventListener('resize', checkMobile)
+
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
+      if (!isMobile) {
+        setMousePosition({ x: e.clientX, y: e.clientY })
+      }
     }
 
     const handleScroll = () => {
@@ -50,7 +67,7 @@ export default function Component() {
       window.removeEventListener("mousemove", handleMouseMove)
       window.removeEventListener("scroll", handleScroll)
     }
-  }, [])
+  }, [isMobile])
 
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-hidden relative">
@@ -188,11 +205,11 @@ export default function Component() {
               <Link
                 key={item}
                 href={`#${item.toLowerCase()}`}
-                className="relative hover:text-blue-400 transition-all duration-300 group py-2"
+                className="relative text-gray-100 hover:text-blue-300 transition-all duration-300 group py-2 font-medium"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {item}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-500"></span>
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-300 to-purple-300 group-hover:w-full transition-all duration-500"></span>
               </Link>
             ))}
           </div>
@@ -234,23 +251,30 @@ export default function Component() {
         {/* Hero Background Effects */}
         <div className="absolute inset-0">
           <div
-            className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full blur-3xl animate-pulse-slow"
+            className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full blur-3xl animate-pulse-slow hidden md:block"
             style={{ transform: `translate(${mousePosition.x * 0.005}px, ${mousePosition.y * 0.005}px)` }}
           ></div>
           <div
-            className="absolute top-40 right-20 w-48 h-48 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse-slow"
+            className="absolute top-40 right-20 w-48 h-48 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse-slow hidden md:block"
             style={{
               transform: `translate(${mousePosition.x * -0.008}px, ${mousePosition.y * -0.008}px)`,
               animationDelay: "2s",
             }}
           ></div>
           <div
-            className="absolute bottom-40 left-1/4 w-24 h-24 bg-gradient-to-r from-cyan-500/40 to-blue-500/40 rounded-full blur-2xl animate-pulse-slow"
+            className="absolute bottom-40 left-1/4 w-24 h-24 bg-gradient-to-r from-cyan-500/40 to-blue-500/40 rounded-full blur-2xl animate-pulse-slow hidden md:block"
             style={{
               transform: `translate(${mousePosition.x * 0.003}px, ${mousePosition.y * 0.003}px)`,
               animationDelay: "1s",
             }}
           ></div>
+          
+          {/* Static background elements for mobile */}
+          <div className="md:hidden">
+            <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-blue-500/30 to-purple-500/30 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div className="absolute top-40 right-20 w-48 h-48 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: "2s" }}></div>
+            <div className="absolute bottom-40 left-1/4 w-24 h-24 bg-gradient-to-r from-cyan-500/40 to-blue-500/40 rounded-full blur-2xl animate-pulse-slow" style={{ animationDelay: "1s" }}></div>
+          </div>
         </div>
 
         <div className="container mx-auto px-4 text-center relative z-10">
@@ -310,7 +334,7 @@ export default function Component() {
         </div>
 
         {/* Animated Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-slow hidden md:block">
           <div className="w-8 h-12 border-2 border-white/40 rounded-full flex justify-center relative overflow-hidden">
             <div className="w-1 h-4 bg-gradient-to-b from-blue-400 to-purple-400 rounded-full mt-2 animate-scroll-indicator"></div>
           </div>
@@ -387,12 +411,12 @@ export default function Component() {
                   <h3 className="text-3xl font-bold mb-6 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all duration-500">
                     {service.title}
                   </h3>
-                  <p className="text-gray-300 mb-8 text-lg leading-relaxed">{service.description}</p>
-                  <ul className="text-gray-400 space-y-3">
+                  <p className="text-gray-200 mb-8 text-lg leading-relaxed">{service.description}</p>
+                  <ul className="text-gray-300 space-y-3">
                     {service.features.map((feature, idx) => (
                       <li
                         key={idx}
-                        className="flex items-center justify-center group-hover:text-gray-300 transition-colors duration-300"
+                        className="flex items-center justify-center group-hover:text-white transition-colors duration-300"
                       >
                         <span className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mr-3 group-hover:scale-150 transition-transform duration-300"></span>
                         {feature}
@@ -440,10 +464,10 @@ export default function Component() {
 
                   <div className="absolute bottom-6 left-6 right-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                     <h3 className="text-2xl font-bold mb-2 text-white">Project {item}</h3>
-                    <p className="text-gray-300 mb-4">3D Visualization & Web Design</p>
+                    <p className="text-gray-100 mb-4 font-medium">3D Visualization & Web Design</p>
                     <Button
                       size="sm"
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 opacity-0 group-hover:opacity-100 transition-all duration-500 hover:scale-110"
+                      className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-400 hover:to-purple-400 border-0 opacity-0 group-hover:opacity-100 transition-all duration-500 hover:scale-110 text-white font-medium"
                     >
                       View Project
                       <ArrowRight className="ml-2 w-4 h-4" />
@@ -498,7 +522,7 @@ export default function Component() {
                 >
                   <tech.icon className="w-10 h-10 text-white group-hover:animate-pulse" />
                 </div>
-                <p className="text-lg font-semibold group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-purple-400 transition-all duration-500">
+                <p className="text-lg font-semibold text-gray-100 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-300 group-hover:to-purple-300 transition-all duration-500">
                   {tech.name}
                 </p>
               </div>
@@ -561,7 +585,7 @@ export default function Component() {
                       {member.name}
                     </h3>
                     <p className="text-blue-400 mb-2 text-lg font-semibold">{member.role}</p>
-                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                    <p className="text-gray-200 group-hover:text-white transition-colors duration-300 font-medium">
                       {member.specialty}
                     </p>
                   </div>
@@ -589,7 +613,7 @@ export default function Component() {
                 <div className="text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4 group-hover:scale-110 transition-transform duration-500">
                   {stat.number}
                 </div>
-                <p className="text-gray-300 text-xl group-hover:text-white transition-colors duration-300">
+                <p className="text-gray-100 text-xl group-hover:text-white font-medium transition-colors duration-300">
                   {stat.label}
                 </p>
               </div>
@@ -612,7 +636,7 @@ export default function Component() {
 
           <div className="grid lg:grid-cols-2 gap-16">
             <div className="animate-slide-up">
-              <Card className="bg-white/5 backdrop-blur-xl border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20">
+              <Card className="bg-white/5 backdrop-blur-xl border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/25">
                 <CardContent className="p-10">
                   <h3 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                     Send us a message
@@ -681,7 +705,7 @@ export default function Component() {
                         <p className="font-semibold text-xl text-gray-300 group-hover:text-white transition-colors duration-300">
                           {contact.label}
                         </p>
-                        <p className="text-gray-400 text-lg group-hover:text-gray-300 transition-colors duration-300">
+                        <p className="text-gray-200 text-lg group-hover:text-white transition-colors duration-300 font-medium">
                           {contact.value}
                         </p>
                       </div>
