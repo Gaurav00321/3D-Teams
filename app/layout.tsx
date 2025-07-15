@@ -70,7 +70,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="canonical" href="https://3dteams.com" />
+        <link rel="canonical" href="https://3d-teams.vercel.app" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
