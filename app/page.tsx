@@ -1,11 +1,9 @@
 "use client"
 
-import { Metadata } from 'next'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import Head from 'next/head'
 import {
   CuboidIcon as Cube,
   Code,
@@ -31,24 +29,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState, useEffect } from "react"
 
-// Add metadata for better SEO
-export const metadata: Metadata = {
-  title: '3D Teams - Professional 3D Modeling & Web Design Services',
-  description: 'Transform your ideas into stunning 3D models and immersive web experiences. Expert services in 3D modeling, interactive web design, and AR/VR development.',
-  keywords: '3D modeling, web design, AR/VR, Three.js, WebGL, interactive design, 3D visualization',
-  openGraph: {
-    title: '3D Teams - Professional 3D Modeling & Web Design Services',
-    description: 'Transform your ideas into stunning 3D models and immersive web experiences.',
-    images: ['/og-image.jpg'],
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: '3D Teams - Professional 3D Modeling & Web Design Services',
-    description: 'Transform your ideas into stunning 3D models and immersive web experiences.',
-    images: ['/og-image.jpg'],
-  },
-}
+// Metadata is moved to layout.tsx
 
 export default function Component() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -91,34 +72,7 @@ export default function Component() {
   }, [isMobile])
 
   return (
-    <>
-      <Head>
-        <link rel="canonical" href="https://3dteams.com" />
-        <meta name="robots" content="index, follow" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "3D Teams",
-            "url": "https://3dteams.com",
-            "logo": "https://3dteams.com/logo.png",
-            "description": "Professional 3D modeling and web design services",
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "San Francisco",
-              "addressRegion": "CA",
-              "addressCountry": "US"
-            },
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "telephone": "+1-555-123-4567",
-              "contactType": "customer service"
-            }
-          })}
-        </script>
-      </Head>
-      <main className="min-h-screen bg-slate-950 text-white overflow-hidden relative" role="main">
+    <main className="min-h-screen bg-slate-950 text-white overflow-hidden relative" role="main">
         {/* Animated Background */}
         <div className="fixed inset-0 overflow-hidden pointer-events-none">
           {/* Animated Mesh Gradient */}
@@ -277,14 +231,25 @@ export default function Component() {
 
           {/* Mobile Menu */}
           <div
-            className={`md:hidden transition-all duration-500 ${isMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"} overflow-hidden bg-black/50 backdrop-blur-xl`}
+            className={`md:hidden fixed top-0 right-0 w-64 h-full bg-black/90 backdrop-blur-xl transform transition-transform duration-300 ease-in-out ${
+              isMenuOpen ? "translate-x-0" : "translate-x-full"
+            } z-50`}
           >
-            <div className="px-4 py-4 space-y-4">
+            <div className="flex justify-end p-4">
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+                aria-label="Close menu"
+              >
+                <X className="w-6 h-6 text-white" />
+              </button>
+            </div>
+            <div className="px-4 py-4 space-y-6">
               {["Services", "Portfolio", "Team", "Contact"].map((item) => (
                 <Link
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className="block hover:text-blue-400 transition-colors py-2"
+                  className="block text-lg font-medium text-gray-200 hover:text-blue-400 transition-colors py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item}
@@ -292,6 +257,13 @@ export default function Component() {
               ))}
             </div>
           </div>
+          {/* Overlay */}
+          {isMenuOpen && (
+            <div
+              className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              onClick={() => setIsMenuOpen(false)}
+            ></div>
+          )}
         </nav>      {/* Hero Section */}
       <section 
         aria-label="Hero"
@@ -824,6 +796,5 @@ export default function Component() {
           </div>
         </footer>
       </main>
-    </>
   )
 }
